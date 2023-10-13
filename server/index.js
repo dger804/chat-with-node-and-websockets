@@ -10,8 +10,12 @@ const app = express()
 const server = createServer(app)
 const io = new Server(server)
 
-io.on("connection", ()=>{
+io.on("connection", (socket)=>{
   console.log('a user connected')
+
+  socket.on('disconnect', () => {
+    console.log('user disconnected')
+  })
 })
 
 app.use(logger("dev"))
