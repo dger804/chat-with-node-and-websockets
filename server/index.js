@@ -13,8 +13,12 @@ const io = new Server(server)
 io.on("connection", (socket)=>{
   console.log('a user connected')
 
-  socket.on('disconnect', () => {
+  socket.on("disconnect", () => {
     console.log('user disconnected')
+  })
+
+  socket.on("chat message", (msg)=>{
+    console.log("message received: "+msg)
   })
 })
 
