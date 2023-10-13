@@ -36,8 +36,19 @@ io.on("connection", (socket)=>{
     console.log('user disconnected')
   })
 
-  socket.on("chat message", (msg)=>{
-    io.emit("chat message", msg)
+  socket.on('chat message', async (msg) => {
+    let result
+    try {
+      result = await db.execute({
+        sql: 'INSERT INTO messages (content) VALUES (:msg)',
+        args: { msg }
+      })
+    } catch (e) {
+      console.error(e)
+      return
+    }
+
+    io.emit('chat message', msg, result.lastInsertRowid.toString())
   })
 })
 
